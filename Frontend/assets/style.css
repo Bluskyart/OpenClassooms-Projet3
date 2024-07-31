@@ -56,7 +56,13 @@ body {
 header {
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	margin: 50px 0;
+}
+.login-nav-index {
+	text-decoration: none;
+}
+.login-nav-index:hover {
+	color: #B1663C;
 }
 section {
 	margin: 50px 0
@@ -139,7 +145,7 @@ li:hover {
 }
 #contact {
 	width: 50%;
-margin: auto;
+	margin: auto;
 }
 #contact > * {
 	text-align: center;
@@ -148,20 +154,20 @@ margin: auto;
 #contact h2{
 	margin-bottom: 20px;
 }
-#contact form {
+form {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
 }
 
-#contact input {
+input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#contact label {
+label {
 	margin: 2em 0 1em 0;
 }
 #contact textarea {
@@ -180,9 +186,49 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 
+/** Log-In**/
+
+.login-nav-connexion {
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.login-nav-connexion:hover {
+	color: inherit;
+	cursor: default;
+}
+
+#connexion {
+	width: 50%;
+	margin: auto;
+}
+
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
 }
 
+#formulaire {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 50%;
+	margin: auto;
+}
+
+#formulaire h2 {
+	text-align: center;
+	margin-top: 80px;
+	margin-bottom: 30px;
+}
+
+#forgotten-password {
+	text-align: center;
+	font-weight: bold;
+	margin-bottom: 200px;
+}
+
+#forgotten-password:hover {
+	text-decoration: underline;
+}
