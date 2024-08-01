@@ -1,5 +1,3 @@
-//récupération de l'id nav-connexion et ajout d'un événement au click
-//si click sur logout : le token est supprimé / si plus de token, on retourne sur la page login
 document
     .getElementById("nav-connexion")
     .addEventListener("click", function (event) {
@@ -12,9 +10,7 @@ document
     }
     });
 
-//si le token est stocké dans le local, on affiche logout
-//sinon, on affiche login
-//affichage du bandeau édition et du bouton modifier
+
 function isLoggedIn() {
     let loggedIn;
     const token = window.localStorage.getItem("token");
