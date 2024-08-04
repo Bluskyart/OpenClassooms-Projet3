@@ -188,12 +188,12 @@ input[type="submit"]{
 
 /** Log-In**/
 
-.login-nav-connexion {
+.login-nav {
 	font-weight: bold;
 	text-decoration: none;
 }
 
-.login-nav-connexion:hover {
+.login-nav:hover {
 	color: inherit;
 	cursor: default;
 }
@@ -231,4 +231,22 @@ footer nav ul {
 
 #forgotten-password:hover {
 	text-decoration: underline;
+}
+
+/** Log-In**/
+
+#modal-banner {
+	width: 100%;
+    background-color: black;
+    color: white;
+    height: 59px;
+    display: flex;
+	justify-content: center;
+    align-items: center;
+    z-index: 1000;
+	margin-bottom: 50px;
+}
+
+#modal-banner .fa-pen-to-square {
+    margin-right: 10px;
 }
