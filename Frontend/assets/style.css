@@ -58,6 +58,9 @@ header {
 	justify-content: space-between;
 	margin: 50px 0;
 }
+header a {
+	text-decoration: none;
+}
 .login-nav-index {
 	text-decoration: none;
 }
@@ -186,6 +189,29 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 
+#categories-menu {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 50px;
+}
+
+#categories-menu button {
+	background-color: transparent;
+	border: 2px solid #1D6154;
+	color: #1D6154;
+	border-radius: 20px;
+	padding: 10px 20px;
+	margin: 0 10px;
+	cursor: pointer;
+	font-family: 'Syne';
+	font-weight: 700;
+  }
+
+#categories-menu button:active, #categories-menu button:hover {
+	background-color: #1D6154;
+	color: white;
+  }
+  
 /** Log-In**/
 
 .login-nav {
@@ -248,5 +274,30 @@ footer nav ul {
 }
 
 #modal-banner .fa-pen-to-square {
-    margin-right: 10px;
+	color: white;
+}
+
+/** Edition Projets**/
+
+.mes-projets-title {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	margin: 4rem 0;
+}
+
+.mes-projets-title h2 {
+	margin-bottom: 0 !important; 
+}
+
+.mes-projets-title a {
+	display: flex;
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+
+.mes-projets-title a img {
+	margin-right: 0.5rem;
 }

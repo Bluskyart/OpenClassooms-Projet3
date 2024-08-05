@@ -27,3 +27,11 @@ export function generateCategoriesMenu(projects) {
         categoriesMenu.appendChild(button);
     });
 }
+
+export function setActiveCategory(activeButton) {
+	const buttons = document.querySelectorAll("#categories-menu button");
+	buttons.forEach((button) => {
+		button.classList.remove("active");
+	});
+	activeButton.classList.add("active");
+}

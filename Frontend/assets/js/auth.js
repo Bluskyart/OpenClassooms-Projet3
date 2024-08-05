@@ -12,17 +12,17 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-        function isLoggedIn() {
-            let loggedIn;
-            const token = window.localStorage.getItem("token");
-            if (token != null) {
-                const arrayToken = token.split(".");
-                const tokenPayload = JSON.parse(atob(arrayToken[1]));
-                const expiration = new Date(tokenPayload.exp * 1000);
-                loggedIn = expiration > Date.now();
-            } else {
-                loggedIn = false;
-            }
-            document.getElementById("login-nav").innerText = loggedIn ? "logout" : "login";
-            return loggedIn;
-        }
+function isLoggedIn() {
+    let loggedIn;
+    const token = window.localStorage.getItem("token");
+    if (token != null) {
+        const arrayToken = token.split(".");
+        const tokenPayload = JSON.parse(atob(arrayToken[1]));
+        const expiration = new Date(tokenPayload.exp * 1000);
+        loggedIn = expiration > Date.now();
+    } else {
+        loggedIn = false;
+    }
+    document.getElementById("login-nav").innerText = loggedIn ? "logout" : "login";
+    return loggedIn;
+}
