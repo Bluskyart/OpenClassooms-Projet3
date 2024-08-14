@@ -26,18 +26,22 @@ function isLoggedIn() {
     return loggedIn;
 }
 
-const logInForm = document.getElementById("connexion");
-logInForm.addEventListener("submit", function (event) {
-    event.preventDefault();
+document.addEventListener("DOMContentLoaded", function () {
+    const logInForm = document.getElementById("connexion");
+    if (logInForm) {
+        logInForm.addEventListener("submit", function (event) {
+            event.preventDefault();
 
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("pass").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("pass").value.trim();
 
-    const logInData = {
-    email: email,
-    password: password,
-    };
-    logIn(logInData);
+            const logInData = {
+                email: email,
+                password: password,
+            };
+            logIn(logInData);
+        });
+    }
 });
 
 //fonction pour stocker les valeurs du token dans le localStorage et rediriger vers la page index//
@@ -69,6 +73,7 @@ async function logIn(logInData) {
 
 //fonction pour afficher des messages d'erreurs
 function handleErrors(response) {
+    let errorMessage;
     switch (response.status) {
     case 401:
     case 404:

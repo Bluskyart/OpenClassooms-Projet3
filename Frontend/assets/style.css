@@ -61,11 +61,22 @@ header {
 header a {
 	text-decoration: none;
 }
-.login-nav-index {
+.login-nav {
 	text-decoration: none;
 }
-.login-nav-index:hover {
+#login-nav {
+	cursor: pointer;
+}
+.login-nav:hover {
 	color: #B1663C;
+}
+#login-error {
+	display: flex;
+	margin-top: 40px;
+	justify-content: center;
+	font-weight: bold;
+	color: red;
+	visibility: hidden;
 }
 section {
 	margin: 50px 0
@@ -205,13 +216,13 @@ input[type="submit"]{
 	cursor: pointer;
 	font-family: 'Syne';
 	font-weight: 700;
-  }
+}
 
 #categories-menu button:active, #categories-menu button:hover {
 	background-color: #1D6154;
 	color: white;
-  }
-  
+}
+
 /** Log-In**/
 
 .login-nav {
