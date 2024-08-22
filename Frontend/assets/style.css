@@ -290,6 +290,11 @@ footer nav ul {
 
 /** Edition Projets**/
 
+.projets {
+	display: flex;
+	flex-direction: row;
+}
+
 .mes-projets-title {
 	display: flex;
 	justify-content: center;
@@ -311,4 +316,35 @@ footer nav ul {
 
 .mes-projets-title a img {
 	margin-right: 0.5rem;
+}
+
+/** dialog overlay **/
+.dialog {
+	position: fixed;
+	z-index: 100;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	padding: 2.4rem;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+	background-color: rgba(black, .75);
+	transition: .2s;
+}
+
+/** dialog box **/
+.dialog_window {
+	flex: 1;
+	max-width: 48rem;
+	margin: auto;
+	padding: 2.4rem;
+	background-color: white;
+}
+
+/** hidden dialog **/
+.dialog[aria-hidden="true"] {
+	visibility: hidden;
+	opacity: 0;
 }
