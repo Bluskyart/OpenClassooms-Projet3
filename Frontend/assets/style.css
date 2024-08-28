@@ -348,3 +348,66 @@ footer nav ul {
 	visibility: hidden;
 	opacity: 0;
 }
+
+/** style delete projects modal **/
+.dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.dialog_window {
+    position: relative; /* Positionne le conteneur relativement pour que les éléments enfants puissent être positionnés absolus par rapport à lui */
+    background: #fff; /* Fond blanc pour la fenêtre modale */
+    padding: 20px;
+    width: 630px;
+    height: 688px;
+    overflow: auto; /* Ajoute une barre de défilement si le contenu dépasse la fenêtre modale */
+	border-radius: 10px;
+}
+
+.dialog_window button {
+    position: absolute;
+    top: 40px;
+    right: 40px; /* Distance depuis la droite de .dialog_window */
+    background: transparent; /* Fond transparent pour le bouton */
+    border: none; /* Supprime la bordure du bouton */
+    font-size: 18px; /* Taille de la police pour le bouton */
+    cursor: pointer; /* Change le curseur lorsqu'il passe sur le bouton */
+}
+
+.modal-gallery-photo {
+	width: 100%;
+    text-align: center;
+}
+
+.modal-gallery-photo h2 {
+	margin: 0;
+	padding: 50px 0;
+}
+
+.gallery-photo-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+	width: auto; 
+}
+
+.gallery-photo-section .modal-gallery-div {
+    width: 76px;
+    height: 102px;
+    margin-bottom: 10px;
+}
+
+.gallery-photo-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

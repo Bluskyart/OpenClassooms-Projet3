@@ -106,7 +106,7 @@ async function fetchWorks() {
         console.error("Erreur lors de la récupération des travaux :", error);
     }
 }
-//fetchWorks()
+fetchWorks()
 
 function galleryPhotoDisplay(works) {
     const galleryPhotoDisplaySection = document.querySelector(".gallery-photo-section");
@@ -142,19 +142,20 @@ function galleryPhotoDisplay(works) {
         divImage.appendChild(deleteImagesBtn);
         galleryPhotoDisplaySection.appendChild(divImage);
 
-        /*deleteImagesBtn.addEventListener("click", async () => {
+        deleteImagesBtn.addEventListener("click", async () => {
             try {
                 await deleteWorkData(work.id);
                 divImage.remove();
             } catch (error) {
                 console.log("Erreur lors de la suppression de l'image :", error);
             }
-        });*/
+        });
     });
 }
     galleryPhotoDisplay()
 
 function deleteWorkData(id) {
+    const token = sessionStorage.getItem("authToken") || localStorage.getItem("token");
     fetch(`http://localhost:5678/api/works/${id}`, {
         method: "DELETE",
         headers: {
@@ -175,10 +176,11 @@ function deleteWorkData(id) {
         })
 }
 
-let btnsDelete = document.getElementsByClassName("btn-delete")
-for(let btn of btnsDelete) {
-    btn.addEventListener("click", () => {
-        let workId = btn.dataset.id;
-        deleteWorkData(work.id)
-    })
-}
+deleteImagesBtn.addEventListener("click", async () => {
+    try {
+        await deleteWorkData(work.id);
+        divImage.remove();
+    } catch (error) {
+        console.log("Erreur lors de la suppression de l'image :", error);
+    }
+});
