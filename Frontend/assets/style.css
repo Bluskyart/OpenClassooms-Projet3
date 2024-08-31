@@ -363,23 +363,41 @@ footer nav ul {
 }
 
 .dialog_window {
-    position: relative; /* Positionne le conteneur relativement pour que les éléments enfants puissent être positionnés absolus par rapport à lui */
-    background: #fff; /* Fond blanc pour la fenêtre modale */
+    position: relative;
+    background: #fff;
     padding: 20px;
     width: 630px;
     height: 688px;
-    overflow: auto; /* Ajoute une barre de défilement si le contenu dépasse la fenêtre modale */
+    overflow: auto;
 	border-radius: 10px;
 }
 
-.dialog_window button {
-    position: absolute;
-    top: 40px;
-    right: 40px; /* Distance depuis la droite de .dialog_window */
-    background: transparent; /* Fond transparent pour le bouton */
-    border: none; /* Supprime la bordure du bouton */
-    font-size: 18px; /* Taille de la police pour le bouton */
-    cursor: pointer; /* Change le curseur lorsqu'il passe sur le bouton */
+.modal-gallery-div {
+	position: relative;
+	display: inline-block;
+	width: 76px;
+    height: 102px;
+    margin-bottom: 10px;
+}
+
+.btn-delete {
+	position: absolute;
+	top: 1px;
+	right: 2px;
+	width: 9px;
+	height: 11px;
+	cursor: pointer;
+	filter: invert(1);
+}
+
+.delete-image-btn {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	width: 17px;
+	height: 17px;
+	cursor: pointer;
+	filter: invert(1);
 }
 
 .modal-gallery-photo {
@@ -390,6 +408,7 @@ footer nav ul {
 .modal-gallery-photo h2 {
 	margin: 0;
 	padding: 50px 0;
+	font-family: Work Sans;
 }
 
 .gallery-photo-section {
@@ -400,14 +419,93 @@ footer nav ul {
 	width: auto; 
 }
 
-.gallery-photo-section .modal-gallery-div {
-    width: 76px;
-    height: 102px;
-    margin-bottom: 10px;
-}
-
-.gallery-photo-section img {
+.image-to-delete {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.dialog_window button[data-dismiss="dialog-return"] {
+    position: absolute;
+    top: 40px;
+    left: 0px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.dialog_window button[data-dismiss="dialog-add-photo"] {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.dialog_window button[data-dismiss="dialog"] {
+	position: absolute;
+    top: 40px;
+    right: 40px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* Zone d'ajout de fichier modale */
+
+.file-upload-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    position: relative;
+}
+
+.file-upload-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.file-upload-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.file-upload-btn:hover {
+    background-color: #0056b3;
+}
+
+.file-upload-text {
+    font-size: 14px;
+    color: #666;
+}
+
+.file-input {
+    display: none;
+}
+
+
+.black-edit-icon {
+    width: 15px;
+    height: 15px;
+}
+
+.icon-banner {
+	filter: invert(1);
+	width: 15px;
+    height: 15px;
+	padding-right: 10px;
 }
