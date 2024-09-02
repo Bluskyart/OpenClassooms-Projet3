@@ -1,7 +1,6 @@
 const galleryPhotoDisplaySection = document.querySelector(".gallery-photo-section");
-let token = sessionStorage.getItem("authToken")
 
-// fonction pour afficher la bannière de modification
+    // fonction pour afficher la bannière de modification
 function toggleModalBanner() {
     const modalBanner = document.getElementById('modal-banner');
     const token = window.localStorage.getItem("token");
@@ -13,6 +12,7 @@ function toggleModalBanner() {
 }
 toggleModalBanner();
 
+    // fonction pour afficher le bouton de modification de la modale
 function EditMode() {
     const token = window.localStorage.getItem("token");
     const body = document.querySelector("body");
@@ -126,25 +126,21 @@ function OpenModal() {
             open(galleryPhotoModal);
         });
     });
+        // Remplir le menu déroulant avec les catégories de l'API
     async function fetchCategoriesAndPopulateDropdown() {
     try {
-        // Faites une requête pour obtenir les catégories depuis l'API
         let response = await fetch('http://localhost:5678/api/categories');
         if (!response.ok) throw new Error(`Erreur: ${response.status}`);
         
-        // Convertissez la réponse en JSON
         let categories = await response.json();
 
-        // Sélectionnez le menu déroulant où les catégories doivent être insérées
         const categorySelect = document.getElementById('categorie-select');
         
-        // Créez et insérez un choix vide par défaut
         const defaultOption = document.createElement('option');
         defaultOption.value = '';
-        defaultOption.textContent = 'Sélectionner une catégorie';
+        defaultOption.textContent = '';
         categorySelect.appendChild(defaultOption);
 
-        // Insérez chaque catégorie dans le menu déroulant
         categories.forEach(category => {
             const option = document.createElement('option');
             option.value = category.id;
@@ -164,7 +160,7 @@ OpenModal()
 // Fonction pour configurer le bouton d'ajout de photo
 function setupFileUploadButton() {
     const addPhotoBtn = document.querySelector('.file-upload-btn'); // Le bouton "+ Ajouter photo"
-    const fileInput = document.getElementById('avatar'); // Le champ de fichier
+    const fileInput = document.getElementById('photo_upload'); // Le champ de fichier
 
     if (addPhotoBtn && fileInput) {
         addPhotoBtn.addEventListener('click', () => {
@@ -175,7 +171,7 @@ function setupFileUploadButton() {
 
 // Fonction pour gérer la prévisualisation de l'image
 function setupImagePreview() {
-    const fileInput = document.getElementById('avatar');
+    const fileInput = document.getElementById('photo_upload');
     const preview = document.getElementById('preview');
     const uploadIcon = document.getElementById('upload-icon');
     const uploadBtn = document.querySelector('.file-upload-btn');
@@ -187,18 +183,16 @@ function setupImagePreview() {
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                    // Masquer les éléments de téléchargement
+
                     uploadIcon.style.display = 'none';
                     uploadBtn.style.display = 'none';
                     uploadText.style.display = 'none';
 
-                    // Afficher l'aperçu de l'image
                     preview.src = e.target.result;
                     preview.style.display = 'block';
                 };
                 reader.readAsDataURL(file);
             } else {
-                // Réafficher les éléments de téléchargement si aucun fichier n'est sélectionné
                 uploadIcon.style.display = 'block';
                 uploadBtn.style.display = 'block';
                 uploadText.style.display = 'block';
@@ -209,11 +203,83 @@ function setupImagePreview() {
     }
 }
 
+    // Fonction pour gérer l'envoi des données de création de projet vers l'API
+function setupPhotoSubmission() {
+    const postPhotoForm = document.getElementById('add-photo-form');
+    const imageInput = document.getElementById('photo_upload');
+    const photoTitle = document.getElementById('photoTitle').value.trim();
+    const photoCategory = document.getElementById('categorie-select').value;
+    const token = sessionStorage.getItem("authToken");
+
+    postPhotoForm.addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const title = photoTitle;
+        const category = photoCategory;
+        const file = imageInput.files[0];
+
+        if (!file) {
+            alert("Veuillez sélectionner une image.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("image", file);
+        formData.append("title", title);
+        formData.append("category", category);
+
+        try {
+            const response = await fetch('http://localhost:5678/api/works', {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                body: formData
+            });
+
+            if (response.ok) {
+                const newProject = await response.json();
+                projects.push(newProject);
+
+                addProjectToGallery(newProject);
+                addPhotoToModal(newProject);
+
+                resetModal();
+                alert('Ajout d\'un nouveau projet réussi');
+            } else {
+                const errorData = await response.json();
+                alert(errorData.message || "Une erreur est survenue lors de l'ajout de la photo.");
+            }
+        } catch (error) {
+            console.error("Erreur lors de l'envoi de la requête :", error);
+            alert("Une erreur est survenue lors de l'envoi de la photo.");
+        }
+    });
+}
+
+    // Fonction pour modifier la couleur du bouton valider dépendamment de si les champs sont remplis
+document.addEventListener('DOMContentLoaded', () => {
+    const addPhotoForm = document.querySelector('.modal-add-photo form');
+    const photoTitle = document.getElementById("photoTitle");
+    const fileInput = document.getElementById('photo_upload');
+    const categorySelect = document.getElementById('categorie-select');
+    const submitBtn = document.querySelector('.submit-gallery-photo-btn');
+
+    addPhotoForm.addEventListener("change", () => {
+        if (fileInput.files[0] && photoTitle.value && categorySelect.value) {
+            submitBtn.style.backgroundColor = "#1d6154";
+        } 
+        else {
+            submitBtn.style.backgroundColor = "#A7A7A7";
+        }
+    });
+});
+
 function initialize() {
     toggleModalBanner();
-    OpenModal();
     setupFileUploadButton();
     setupImagePreview();
+    setupPhotoSubmission();
 }
 
 document.addEventListener('DOMContentLoaded', initialize);
@@ -230,16 +296,9 @@ async function fetchWorks() {
 }
 fetchWorks()
 
+    // Fonction pour afficher les projets dans la modale et de pouvoir les supprimer
 function galleryPhotoDisplay(works) {
     const galleryPhotoDisplaySection = document.querySelector(".gallery-photo-section");
-    try {
-        let response = fetch(`http://localhost:5678/api/works`);
-        if (!response.ok) throw new Error(`Erreur: ${response.status}`);
-        let works = response.json();
-        galleryPhotoDisplay(works);
-    } catch (error) {
-        console.error("Erreur lors de la récupération des travaux :", error);
-    }
     works.forEach(work => {
         let divImage = document.createElement("div");
         divImage.classList.add("modal-gallery-div");
@@ -264,7 +323,8 @@ function galleryPhotoDisplay(works) {
         divImage.appendChild(deleteImagesBtn);
         galleryPhotoDisplaySection.appendChild(divImage);
 
-        deleteImagesBtn.addEventListener("click", async () => {
+        deleteImagesBtn.addEventListener("click", async (event) => {
+            event.preventDefault();
             try {
                 await deleteWorkData(work.id);
                 divImage.remove();
@@ -276,6 +336,7 @@ function galleryPhotoDisplay(works) {
 }
     galleryPhotoDisplay()
 
+    // Fonction pour supprimer les projets dans l'API
 function deleteWorkData(id) {
     const token = sessionStorage.getItem("authToken") || localStorage.getItem("token");
     fetch(`http://localhost:5678/api/works/${id}`, {
@@ -298,15 +359,7 @@ function deleteWorkData(id) {
         })
 }
 
-deleteImagesBtn.addEventListener("click", async () => {
-    try {
-        await deleteWorkData(work.id);
-        divImage.remove();
-    } catch (error) {
-        console.log("Erreur lors de la suppression de l'image :", error);
-    }
-});
-
+    // Fonction pour passer de la modale de suppression à celle d'ajout de projet
 function switchToAddPhotoModal() {
     const addPhotoBtn = document.getElementById('open-add-photo-modal');
     if (addPhotoBtn) {

@@ -117,17 +117,17 @@
 						<img src="./assets/icons/image-regular.svg" alt="Icône d'image" class="file-upload-icon" id="upload-icon">
 						<button type="button" class="file-upload-btn">+ Ajouter photo</button>
 						<p class="file-upload-text">jpg, png : 4mo max</p>
-						<input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" class="file-input">
+						<input type="file" id="photo_upload" name="photo_upload" accept="image/png, image/jpeg" class="file-input">
 						<img id="preview" src="" alt="Aperçu de l'image" class="file-preview" style="display: none;">
 					</div>
-					<form action="#" method="post">
+					<form action="#" method="post" id="add-photo-form" >
 						<label for="name">Titre</label>
-						<input type="text" name="name" id="name">
+						<input type="text" name="name" id="photoTitle" required>
 						<label for="categories">Catégorie</label>
-						<select name="categories" id="categorie-select"></select>
+						<select name="categories" id="categorie-select" required></select>
+						<hr>
+						<input class="submit-gallery-photo-btn" id="submit-project-btn" type="submit" value="Valider">
 					</form>
-					<hr>
-					<input class="submit-gallery-photo-btn" type="submit" value="Valider">
 				</section>
 			</div>
 		</div>
