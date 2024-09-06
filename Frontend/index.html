@@ -7,6 +7,7 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap" rel="stylesheet">
 		<meta name="description" content="">
 		<link rel="stylesheet" href="./assets/style.css">
 	</head>
@@ -78,7 +79,7 @@
 					type="button"
 					aria-label="Fermer"
 					title="Fermer cette fenêtre modale"
-					data-dismiss="dialog">X
+					data-dismiss="dialog"><img src=".\assets\icons\xmark-solid.svg" alt="exit">
 				</button>
 				<section class="modal-gallery-photo">
 					<h2>Galerie photo</h2>
@@ -109,7 +110,7 @@
 					type="button"
 					aria-label="Fermer"
 					title="Fermer cette fenêtre modale"
-					data-dismiss="dialog-add-photo">X
+					data-dismiss="dialog-add-photo"><img src=".\assets\icons\xmark-solid.svg" alt="exit">
 				</button>
 				<section class="modal-add-photo">
 					<h2>Ajout photo</h2>
@@ -120,7 +121,7 @@
 						<input type="file" id="photo_upload" name="photo_upload" accept="image/png, image/jpeg" class="file-input">
 						<img id="preview" src="" alt="Aperçu de l'image" class="file-preview" style="display: none;">
 					</div>
-					<form action="#" method="post" id="add-photo-form" >
+					<form action="#" method="post" id="add-photo-form">
 						<label for="name">Titre</label>
 						<input type="text" name="name" id="photoTitle" required>
 						<label for="categories">Catégorie</label>

@@ -183,10 +183,13 @@ input {
 }
 
 select {
+	margin: 0 auto 10px auto;
+    width: 66%;
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	appearance:"none";
 }
 
 label {
@@ -278,7 +281,7 @@ footer nav ul {
 	text-decoration: underline;
 }
 
-/** Log-In**/
+/** Bannière**/
 
 #modal-banner {
 	width: 100%;
@@ -297,6 +300,10 @@ footer nav ul {
 }
 
 /** Edition Projets**/
+
+.js-modal {
+    text-decoration: none;
+}
 
 .projets {
 	display: flex;
@@ -417,8 +424,10 @@ footer nav ul {
 
 .modal-gallery-photo h2 {
 	margin: 0;
-	padding: 50px 0;
-	font-family: Work Sans;
+	padding-bottom: 50px;
+	font-family: 'Work Sans';
+	color: black;
+	font-weight: lighter;
 }
 
 .modal-add-photo {
@@ -428,8 +437,9 @@ footer nav ul {
 
 .modal-add-photo h2 {
 	margin: 0;
-	padding: 50px 0;
-	font-family: Work Sans;
+	font-family: 'Work Sans';
+	color: black;
+	font-weight: lighter;
 }
 
 .gallery-photo-section {
@@ -456,11 +466,16 @@ hr {
 .dialog_window button[data-dismiss="dialog-return"] {
     position: absolute;
     top: 40px;
-    left: 0px;
+    left: 40px;
     background: transparent;
     border: none;
     cursor: pointer;
-    font-size: 18px;
+
+}
+
+.dialog_window button[data-dismiss="dialog-return"] img {
+    width: 21px;
+	height: 21px;
 }
 
 .dialog_window button[data-dismiss="dialog-add-photo"] {
@@ -470,7 +485,11 @@ hr {
     background: transparent;
     border: none;
     cursor: pointer;
-    font-size: 18px;
+}
+
+.dialog_window button[data-dismiss="dialog-add-photo"] img {
+	width: 24px;
+	height: 24px;
 }
 
 .dialog_window button[data-dismiss="dialog"] {
@@ -481,6 +500,11 @@ hr {
     border: none;
     cursor: pointer;
     font-size: 18px;
+}
+
+.dialog_window button[data-dismiss="dialog"] img {
+	width: 24px;
+	height: 24px;
 }
 
 /* Zone d'ajout de fichier modale */
@@ -535,14 +559,13 @@ hr {
 
 /* Champ texte d'ajout de fichier modale */
 
-.modal-add-photo input {
-	margin: 0 auto 40px auto;
-    width: 66%;
+.submit-gallery-photo-btn {
+	width: 237px !important;
 }
 
-.modal-add-photo select {
-	margin: 0 auto 40px auto;
-    width: 66%;
+#photoTitle {
+	margin: 0 auto 10px auto;
+	width: 66%;
 }
 
 .modal-add-photo label {
@@ -552,9 +575,6 @@ hr {
 	margin-bottom: 10px;
 }
 
-.modal-add-photo {
-	gap: 10px;
-}
 
 /* bannière */
 

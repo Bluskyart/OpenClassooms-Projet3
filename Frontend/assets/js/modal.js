@@ -1,4 +1,6 @@
 const galleryPhotoDisplaySection = document.querySelector(".gallery-photo-section");
+let projects = [];
+const gallery = document.querySelector('.gallery');
 
     // fonction pour afficher la bannière de modification
 function toggleModalBanner() {
@@ -179,6 +181,7 @@ function setupImagePreview() {
 
     if (fileInput && preview && uploadIcon && uploadBtn && uploadText) {
         fileInput.addEventListener('change', (event) => {
+            event.preventDefault();
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
@@ -203,19 +206,15 @@ function setupImagePreview() {
     }
 }
 
-    // Fonction pour gérer l'envoi des données de création de projet vers l'API
-function setupPhotoSubmission() {
     const postPhotoForm = document.getElementById('add-photo-form');
-    const imageInput = document.getElementById('photo_upload');
-    const photoTitle = document.getElementById('photoTitle').value.trim();
-    const photoCategory = document.getElementById('categorie-select').value;
-    const token = sessionStorage.getItem("authToken");
 
-    postPhotoForm.addEventListener('submit', async function (event) {
+    postPhotoForm.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        const title = photoTitle;
-        const category = photoCategory;
+        const imageInput = document.getElementById('photo_upload');
+        const title = document.getElementById('photoTitle').value.trim();
+        const category = document.getElementById('categorie-select').value;
+        const token = localStorage.getItem("token");
         const file = imageInput.files[0];
 
         if (!file) {
@@ -228,68 +227,104 @@ function setupPhotoSubmission() {
         formData.append("title", title);
         formData.append("category", category);
 
-        try {
-            const response = await fetch('http://localhost:5678/api/works', {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                },
-                body: formData
-            });
-
+        fetch('http://localhost:5678/api/works', {
+            method: "POST",
+            headers: {
+                accept: "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+            body: formData
+        })
+        .then(response => {
             if (response.ok) {
-                const newProject = await response.json();
-                projects.push(newProject);
-
-                addProjectToGallery(newProject);
-                addPhotoToModal(newProject);
-
+                console.log("Projet créé avec succès.");
                 resetModal();
-                alert('Ajout d\'un nouveau projet réussi');
             } else {
-                const errorData = await response.json();
-                alert(errorData.message || "Une erreur est survenue lors de l'ajout de la photo.");
+                return response.json().then(error => {
+                    throw new Error(`Erreur: ${error.message}`);
+                });
             }
-        } catch (error) {
+        })
+        .catch(error => {
             console.error("Erreur lors de l'envoi de la requête :", error);
             alert("Une erreur est survenue lors de l'envoi de la photo.");
-        }
+        })
     });
+
+function resetModal() {
+    const imageInput = document.getElementById('photo_upload');
+    const preview = document.getElementById('preview');
+    const titleInput = document.getElementById('photoTitle');
+    const categorySelect = document.getElementById('categorie-select');
+
+    imageInput.value = "";
+    titleInput.value = "";
+    categorySelect.selectedIndex = 0;
+
+    preview.src = "";
+    preview.style.display = 'none';
+
+    const uploadIcon = document.getElementById('upload-icon');
+    const uploadBtn = document.querySelector('.file-upload-btn');
+    const uploadText = document.querySelector('.file-upload-text');
+
+    uploadIcon.style.display = 'block';
+    uploadBtn.style.display = 'block';
+    uploadText.style.display = 'block';
+
+    const submitBtn = document.querySelector('.submit-gallery-photo-btn');
+    submitBtn.style.backgroundColor = "#A7A7A7";
 }
 
-    // Fonction pour modifier la couleur du bouton valider dépendamment de si les champs sont remplis
-document.addEventListener('DOMContentLoaded', () => {
-    const addPhotoForm = document.querySelector('.modal-add-photo form');
-    const photoTitle = document.getElementById("photoTitle");
+// Fonction pour modifier la couleur du bouton valider dépendamment de si les champs sont remplis
+function checkFormCompletion() {
     const fileInput = document.getElementById('photo_upload');
+    const photoTitle = document.getElementById('photoTitle');
     const categorySelect = document.getElementById('categorie-select');
-    const submitBtn = document.querySelector('.submit-gallery-photo-btn');
+    const submitBtn = document.getElementById('submit-project-btn');
 
-    addPhotoForm.addEventListener("change", () => {
-        if (fileInput.files[0] && photoTitle.value && categorySelect.value) {
-            submitBtn.style.backgroundColor = "#1d6154";
-        } 
-        else {
-            submitBtn.style.backgroundColor = "#A7A7A7";
-        }
-    });
+    // Vérifie si tous les champs requis sont remplis
+    if (fileInput.files.length > 0 && photoTitle.value.trim() !== '' && categorySelect.value !== '') {
+        // Bouton activé
+        submitBtn.style.backgroundColor = "#1d6154";
+    } else {
+        // Bouton désactivé
+        submitBtn.style.backgroundColor = "#A7A7A7";
+    }
+}
+
+// Fonction d'initialisation pour ajouter les écouteurs d'événements
+function initializeFormListeners() {
+    const fileInput = document.getElementById('photo_upload');
+    const photoTitle = document.getElementById("photoTitle");
+    const categorySelect = document.getElementById('categorie-select');
+
+    // écouteurs d'événements sur les champs du formulaire
+    fileInput.addEventListener('change', checkFormCompletion);
+    photoTitle.addEventListener('input', checkFormCompletion);
+    categorySelect.addEventListener('change', checkFormCompletion);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    checkFormCompletion();
+    initializeFormListeners();
 });
 
 function initialize() {
     toggleModalBanner();
     setupFileUploadButton();
     setupImagePreview();
-    setupPhotoSubmission();
+    /**setupPhotoSubmission();**/
 }
 
 document.addEventListener('DOMContentLoaded', initialize);
 
 async function fetchWorks() {
     try {
-        let response = await fetch(`http://localhost:5678/api/works`);
+        let response = await fetch("http://localhost:5678/api/works");
         if (!response.ok) throw new Error(`Erreur: ${response.status}`);
         let works = await response.json();
-        galleryPhotoDisplay(works);
+            galleryPhotoDisplay(works);
     } catch (error) {
         console.error("Erreur lors de la récupération des travaux :", error);
     }
@@ -299,6 +334,7 @@ fetchWorks()
     // Fonction pour afficher les projets dans la modale et de pouvoir les supprimer
 function galleryPhotoDisplay(works) {
     const galleryPhotoDisplaySection = document.querySelector(".gallery-photo-section");
+    if (typeof works !== 'undefined') {
     works.forEach(work => {
         let divImage = document.createElement("div");
         divImage.classList.add("modal-gallery-div");
@@ -323,41 +359,62 @@ function galleryPhotoDisplay(works) {
         divImage.appendChild(deleteImagesBtn);
         galleryPhotoDisplaySection.appendChild(divImage);
 
-        deleteImagesBtn.addEventListener("click", async (event) => {
+        deleteImagesBtn.addEventListener("click", (event) => {
             event.preventDefault();
             try {
-                await deleteWorkData(work.id);
+                deleteWorkData(work.id);
                 divImage.remove();
             } catch (error) {
                 console.log("Erreur lors de la suppression de l'image :", error);
             }
         });
-    });
+    });}
 }
     galleryPhotoDisplay()
 
-    // Fonction pour supprimer les projets dans l'API
-function deleteWorkData(id) {
-    const token = sessionStorage.getItem("authToken") || localStorage.getItem("token");
-    fetch(`http://localhost:5678/api/works/${id}`, {
-        method: "DELETE",
-        headers: {
-        accept: "*/*",
-        authorization: `Bearer ${token}`,
-        }
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log("fichier supprimé")
-        } else {
-            console.log(response)
-            alert(`Erreur ${response.status} lors de la tentative de suppression du travail.<br />`)
-        }
-    })
-        .catch(error => {
-        alert("Une erreur s'est produite lors de la tentative de suppression du travail.")
-        })
+function createPhotoElement(project) {
+    const photoContainer = document.createElement('div');
+    photoContainer.className = 'photo-container';
+    photoContainer.setAttribute('id', `photo-${project.id}`);
+
+    const img = document.createElement('img');
+    img.src = project.imageUrl;
+    img.alt = project.title;
+    img.className = 'photoArchitecture';
+    photoContainer.appendChild(img);
+
+    const deleteImagesBtn = document.createElement('button');
+    deleteImagesBtn.type = 'button';
+    deleteImagesBtn.className = 'btn-delete';
+    deleteImagesBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+    deleteImagesBtn.addEventListener('click', () => deletePhoto(project.id));
+    photoContainer.appendChild(deleteImagesBtn);
+
+    return photoContainer;
 }
+
+    // Fonction pour supprimer les projets dans l'API
+    async function deleteWorkData(id) {
+        const token = sessionStorage.getItem("authToken") || localStorage.getItem("token");
+        try {
+            let response = await fetch(`http://localhost:5678/api/works/${id}`, {
+                method: "DELETE",
+                headers: {
+                    accept: "*/*",
+                    authorization: `Bearer ${token}`,
+                }
+            });
+    
+            if (response.ok) {
+                console.log("Fichier supprimé");
+            } else {
+                console.log(response);
+                alert(`Erreur ${response.status} lors de la tentative de suppression du travail.`);
+            }
+        } catch (error) {
+            alert("Une erreur s'est produite lors de la tentative de suppression du travail.");
+        }
+    }
 
     // Fonction pour passer de la modale de suppression à celle d'ajout de projet
 function switchToAddPhotoModal() {
