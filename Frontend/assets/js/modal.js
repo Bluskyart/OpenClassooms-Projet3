@@ -34,7 +34,10 @@ function EditMode() {
         openModalBtn.setAttribute("type", "button");
         openModalBtn.setAttribute("aria-haspopup", "dialog");
         openModalBtn.setAttribute("aria-controls", "dialog");
-        openModalBtn.addEventListener("click", OpenModal);
+        openModalBtn.addEventListener("click", (event) => {
+            event.preventDefault();
+            OpenModal();
+        });
         workTitle.appendChild(openModalBtn);
 
         const blackEditIcon = document.createElement("img");
@@ -97,7 +100,8 @@ function OpenModal() {
 //Fin modale gallerie photo
 //Début modale ajout photo
         const addPhotoBtn = document.getElementById('open-add-photo-modal');
-        addPhotoBtn.addEventListener('click', () => {
+        addPhotoBtn.addEventListener('click', (event) => {
+            event.preventDefault();
             const galleryPhotoModal = document.getElementById('dialog');
             const addPhotoModal = document.getElementById('dialog-add-photo');
             close(galleryPhotoModal);
@@ -206,9 +210,9 @@ function setupImagePreview() {
     }
 }
 
-    const postPhotoForm = document.getElementById('add-photo-form');
+    const postPhotoForm = document.getElementById('submit-project-btn');
 
-    postPhotoForm.addEventListener('submit', function (event) {
+    postPhotoForm.addEventListener('click', function (event) {
         event.preventDefault();
 
         const imageInput = document.getElementById('photo_upload');
@@ -233,17 +237,21 @@ function setupImagePreview() {
                 accept: "application/json",
                 "Authorization": `Bearer ${token}`,
             },
-            body: formData
+            body: formData,
+            redirect: 'manual'
         })
         .then(response => {
-            if (response.ok) {
-                console.log("Projet créé avec succès.");
-                resetModal();
+            if (response.ok) {  // Vérifie si la réponse HTTP est OK (statut 200-299)
+                return response.json();  // Convertit la réponse en JSON
             } else {
-                return response.json().then(error => {
+                return response.json().then(error => {  // Gère les erreurs renvoyées par le serveur
                     throw new Error(`Erreur: ${error.message}`);
                 });
             }
+        })
+        .then(data => {
+            console.log("Projet créé avec succès :", data);
+            resetModal();  // Réinitialise le formulaire après succès
         })
         .catch(error => {
             console.error("Erreur lors de l'envoi de la requête :", error);
@@ -332,7 +340,7 @@ async function fetchWorks() {
 fetchWorks()
 
     // Fonction pour afficher les projets dans la modale et de pouvoir les supprimer
-function galleryPhotoDisplay(works) {
+    function galleryPhotoDisplay(works) {
     const galleryPhotoDisplaySection = document.querySelector(".gallery-photo-section");
     if (typeof works !== 'undefined') {
     works.forEach(work => {
@@ -362,8 +370,7 @@ function galleryPhotoDisplay(works) {
         deleteImagesBtn.addEventListener("click", (event) => {
             event.preventDefault();
             try {
-                deleteWorkData(work.id);
-                divImage.remove();
+                deleteWorkData(work.id, divImage);
             } catch (error) {
                 console.log("Erreur lors de la suppression de l'image :", error);
             }
@@ -394,7 +401,8 @@ function createPhotoElement(project) {
 }
 
     // Fonction pour supprimer les projets dans l'API
-    async function deleteWorkData(id) {
+    async function deleteWorkData(id, divImage) {
+        divImage.remove();
         const token = sessionStorage.getItem("authToken") || localStorage.getItem("token");
         try {
             let response = await fetch(`http://localhost:5678/api/works/${id}`, {
