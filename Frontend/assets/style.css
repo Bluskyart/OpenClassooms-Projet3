@@ -240,7 +240,12 @@ input[type="button"]{
 	font-weight: 700;
 }
 
-#categories-menu button:active, #categories-menu button:hover {
+#categories-menu button.active {
+	background-color: #1D6154;
+	color: white;
+}
+
+#categories-menu button:hover {
 	background-color: #1D6154;
 	color: white;
 }
@@ -601,3 +606,4 @@ hr {
     height: 15px;
 	padding-right: 10px;
 }
+

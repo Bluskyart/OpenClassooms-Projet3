@@ -21,14 +21,21 @@ export function generateCategoriesMenu(projects) {
     categories.forEach((category) => {
         const button = document.createElement("button");
         button.textContent = category;
+
+        if (category === "Tous") {
+            button.classList.add("active");
+            filterProjects(category, projects);
+        }
+
         button.addEventListener("click", () => {
-        filterProjects(category, projects);
+            filterProjects(category, projects);
+            setActiveCategory(button);
         });
         categoriesMenu.appendChild(button);
     });
 }
 
-export function setActiveCategory(activeButton) {
+function setActiveCategory(activeButton) {
 	const buttons = document.querySelectorAll("#categories-menu button");
 	buttons.forEach((button) => {
 		button.classList.remove("active");

@@ -115,13 +115,14 @@ function OpenModal() {
 
         // Fermer la modal en cliquant sur la croix
         closeBtn.addEventListener('click', (event) => {
-            event.preventDefault();
+            resetModal();
             close(addPhotoModal);
         });
 
         // Fermer la modal en cliquant en dehors
         window.addEventListener('click', (event) => {
             if (event.target === addPhotoModal) {
+                resetModal();
                 close(addPhotoModal);
             }
         });
@@ -131,6 +132,7 @@ function OpenModal() {
             event.preventDefault();
             const galleryPhotoModal = document.getElementById('dialog');
             close(addPhotoModal);
+            resetModal();
             open(galleryPhotoModal);
         });
     });
@@ -227,6 +229,12 @@ function setupImagePreview() {
             alert("Veuillez sélectionner une image.");
             return;
         }
+
+        if (file.size > 4 * 1024 * 1024) {
+            alert("Le fichier dépasse la taille maximale autorisée de 4 Mo.");
+            resetModal()
+            return;
+        }
     
         const formData = new FormData();
         formData.append("image", file);
@@ -279,8 +287,7 @@ function resetModal() {
     uploadBtn.style.display = 'block';
     uploadText.style.display = 'block';
 
-    const submitBtn = document.querySelector('.submit-gallery-photo-btn');
-    submitBtn.style.backgroundColor = "#A7A7A7";
+    checkFormCompletion()
 }
 
 // Fonction pour modifier la couleur du bouton valider dépendamment de si les champs sont remplis
