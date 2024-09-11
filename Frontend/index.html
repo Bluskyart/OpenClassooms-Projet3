@@ -13,7 +13,7 @@
 	</head>
 	<body>
 		<div id="modal-banner">
-			<img src="./assets/icons/pen-to-square-regular (1).svg" aria-hidden="true" class="icon-banner"></img>
+			<img src="./assets/icons/pen-to-square-regular(1).svg" alt="bannerIcon" aria-hidden="true" class="icon-banner">
 			Mode édition
 		</div>
 		<header>
@@ -68,18 +68,18 @@
 		<div
 			id="dialog"
 			role="dialog"
-			aria-labelledby="modal-title"
-			aria-describedby="modal-desc"
+			aria-labelledby="modal-delete"
+			aria-describedby="modal-gallery-photo"
 			aria-modal="true"
 			aria-hidden="true"
 			tabindex="-1"
 			class="dialog">
-			<div role="document" class="dialog_window">
+			<div role="document" class="dialog_window" id="modal-delete">
 				<button
 					type="button"
 					aria-label="Fermer"
 					title="Fermer cette fenêtre modale"
-					data-dismiss="dialog"><img src=".\assets\icons\xmark-solid.svg" alt="exit">
+					data-dismiss="dialog"><img src="./assets/icons/xmark-solid.svg" alt="exit">
 				</button>
 				<section class="modal-gallery-photo">
 					<h2>Galerie photo</h2>
@@ -93,13 +93,13 @@
 		<div
 			id="dialog-add-photo"
 			role="dialog"
-			aria-labelledby="modal-title"
-			aria-describedby="modal-desc"
+			aria-labelledby="modal-add"
+			aria-describedby="modal-add-photo"
 			aria-modal="true"
 			aria-hidden="true"
 			tabindex="-1"
 			class="dialog">
-			<div role="document" class="dialog_window">
+			<div role="document" class="dialog_window" id="modal-add">
 				<button
 					type="button"
 					aria-label="Retour"
@@ -110,7 +110,7 @@
 					type="button"
 					aria-label="Fermer"
 					title="Fermer cette fenêtre modale"
-					data-dismiss="dialog-add-photo"><img src=".\assets\icons\xmark-solid.svg" alt="exit">
+					data-dismiss="dialog-add-photo"><img src="./assets/icons/xmark-solid.svg" alt="exit">
 				</button>
 				<section class="modal-add-photo">
 					<h2>Ajout photo</h2>
