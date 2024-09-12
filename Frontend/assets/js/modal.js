@@ -2,7 +2,7 @@ const galleryPhotoDisplaySection = document.querySelector(".gallery-photo-sectio
 let projects = [];
 const gallery = document.querySelector('.gallery');
 
-    // fonction pour afficher la bannière de modification
+    // Fonction pour afficher ou masquer la bannière de modification
 function toggleModalBanner() {
     const modalBanner = document.getElementById('modal-banner');
     const token = window.localStorage.getItem("token");
@@ -14,7 +14,7 @@ function toggleModalBanner() {
 }
 toggleModalBanner();
 
-    // fonction pour afficher le bouton de modification de la modale
+    // Fonction pour activer le mode édition
 function EditMode() {
     const token = window.localStorage.getItem("token");
     const body = document.querySelector("body");
@@ -55,8 +55,8 @@ function EditMode() {
 }
 EditMode();
 
+    //Fonction pour gérer l'ouverture et la fermeture des modales
 function OpenModal() {
-
 //Début modale gallerie photo
     document.addEventListener('DOMContentLoaded', () => {
         const triggers = document.querySelectorAll('[aria-haspopup="dialog"]');
@@ -157,9 +157,10 @@ function OpenModal() {
             option.textContent = category.name;
             categorySelect.appendChild(option);
         });
-    } catch (error) {
-        console.error("Erreur lors de la récupération des catégories :", error);
+        } catch (error) {
+            console.error("Erreur lors de la récupération des catégories :", error);
     }
+
 }
 
 // Appel de la fonction pour remplir le menu déroulant lors du chargement de la page ou de l'ouverture de la modale
@@ -214,6 +215,7 @@ function setupImagePreview() {
     }
 }
 
+        // Fonction pour gérer la soumission du formulaire d'ajout de photo et envoyer les données à l'API
     const postPhotoForm = document.getElementById('submit-project-btn');
 
     postPhotoForm.addEventListener('click', async function (event) {
@@ -233,6 +235,16 @@ function setupImagePreview() {
         if (file.size > 4 * 1024 * 1024) {
             alert("Le fichier dépasse la taille maximale autorisée de 4 Mo.");
             resetModal()
+            return;
+        }
+
+        if (!title) {
+            alert("Vous devez entrer un titre.");
+            return;
+        }
+
+        if (!category) {
+            alert("Vous devez choisir une catégorie.");
             return;
         }
     
@@ -266,6 +278,8 @@ function setupImagePreview() {
         }
     });
 
+
+    // Fonction pour réinitialiser le modal d'ajout de photo
 function resetModal() {
     const imageInput = document.getElementById('photo_upload');
     const preview = document.getElementById('preview');
@@ -299,11 +313,11 @@ function checkFormCompletion() {
 
     // Vérifie si tous les champs requis sont remplis
     if (fileInput.files.length > 0 && photoTitle.value.trim() !== '' && categorySelect.value !== '') {
-        // Bouton activé
         submitBtn.style.backgroundColor = "#1d6154";
+        submitBtn.style.cursor = "pointer"
     } else {
-        // Bouton désactivé
         submitBtn.style.backgroundColor = "#A7A7A7";
+        submitBtn.style.cursor = "defaut"
     }
 }
 
@@ -324,6 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeFormListeners();
 });
 
+    // Fonction d'initialisation appelée lors du chargement de la page
 function initialize() {
     toggleModalBanner();
     setupFileUploadButton();
@@ -331,8 +346,11 @@ function initialize() {
     checkFormCompletion()
 }
 
+
 document.addEventListener('DOMContentLoaded', initialize);
 
+
+    // Fonction pour récupérer les travaux depuis l'API
 async function fetchWorks() {
     try {
         let response = await fetch("http://localhost:5678/api/works");
@@ -344,6 +362,7 @@ async function fetchWorks() {
     }
 }
 fetchWorks()
+
 
     // Fonction pour afficher les projets dans la modale et de pouvoir les supprimer
     function galleryPhotoDisplay(works) {
@@ -384,11 +403,14 @@ fetchWorks()
     }
 }
 
+
 document.addEventListener('DOMContentLoaded', async () => {
     const works = await fetchWorks();
     galleryPhotoDisplay(works);
 });
 
+
+    // Fonction pour créer un élément photo à partir d'un projet
 function createPhotoElement(project) {
     const photoContainer = document.createElement('div');
     photoContainer.className = 'photo-container';
@@ -410,7 +432,7 @@ function createPhotoElement(project) {
     return photoContainer;
 }
 
-// Fonction pour supprimer les projets dans l'API
+    // Fonction pour supprimer un projet dans l'API
 async function deleteWorkData(id, divImage) {
     divImage.remove();
     const token = sessionStorage.getItem("authToken") || localStorage.getItem("token");
@@ -451,13 +473,12 @@ function switchToAddPhotoModal() {
     }
 }
 
+    // Fonction pour mettre à jour la galerie principale avec les projets
 function updateMainGallery(works) {
     const mainGallery = document.querySelector('.gallery');
-    
-    // Vider la galerie principale
+
     mainGallery.innerHTML = '';
 
-    // Ajouter les projets à la galerie principale
     works.forEach(work => {
         const photoContainer = document.createElement('div');
         photoContainer.classList.add('photo-container');

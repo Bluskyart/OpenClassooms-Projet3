@@ -1,3 +1,4 @@
+    // Fonction qui gère le comportement de connexion et déconnexion
 document.addEventListener("DOMContentLoaded", function () {
     isLoggedIn();
     document.getElementById("login-nav").addEventListener("click", function (event) {
@@ -11,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+    // Fonction pour vérifier si l'utilisateur est connecté
 function isLoggedIn() {
     let loggedIn;
     const token = window.localStorage.getItem("token");
@@ -26,6 +28,7 @@ function isLoggedIn() {
     return loggedIn;
 }
 
+    //Fonction pour gérer la soumission du formulaire de connexion
 document.addEventListener("DOMContentLoaded", function () {
     const logInForm = document.getElementById("connexion");
     if (logInForm) {
@@ -44,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-//fonction pour stocker les valeurs du token dans le localStorage et rediriger vers la page index//
+    //fonction pour stocker les valeurs du token dans le localStorage et rediriger vers la page index
 async function logIn(logInData) {
     try {
     const response = await fetch("http://localhost:5678/api/users/login", {
@@ -71,7 +74,7 @@ async function logIn(logInData) {
     }
 }
 
-//fonction pour afficher des messages d'erreurs
+    //fonction pour afficher des messages d'erreurs
 function handleErrors(response) {
     let errorMessage;
     switch (response.status) {
